@@ -6,7 +6,7 @@ env:
   IMAGE_REGISTRY_HOSTNAME: "devocrregistry.azurecr.io"
   IMAGE_NAME: "docai"
   IMAGE_TAG: "latest"
-  API: "https://devocrback.victoriousdune-c6195d85.australiaeast.azurecontainerapps.io/analyze-doc?sample_doc=true"
+  API: "https://devocrback.victoriousdune-c6195d85.australiaeast.azurecontainerapps.io"
 
 jobs:
   build:
