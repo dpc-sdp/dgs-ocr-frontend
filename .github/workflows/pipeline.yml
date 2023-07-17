@@ -11,13 +11,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: docker
     steps:
       - name: checkout
         uses: actions/checkout@v3
-        with:
-          ref: master
       - name: build
         run: |
           docker build --build-arg API=$API -t $IMAGE_REGISTRY_HOSTNAME/$IMAGE_NAME:$IMAGE_TAG -t $IMAGE_REGISTRY_HOSTNAME/$IMAGE_NAME:$GITHUB_SHA .
@@ -32,6 +28,8 @@ jobs:
       image: mcr.microsoft.com/azure-cli
     needs: build
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
       - name: deploy
         run: |
           az extension add -n containerapp
