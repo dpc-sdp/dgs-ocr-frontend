@@ -11,7 +11,7 @@ export interface LoginParams {
 
 export const login = async (params: LoginParams): Promise<AxiosResponse<LoginResponce>> => {
     return axios.post<LoginParams, AxiosResponse<LoginResponce>>(
-        `${process.env.REACT_APP_ENDPOINT}/login`,
+        `${process.env.REACT_APP_ENDPOINT}/api/v1/user/login`,
         params
     );
 }
