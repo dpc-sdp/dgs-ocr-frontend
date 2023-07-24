@@ -2,8 +2,6 @@
 FROM node:18.16.0-alpine AS builder
 
 WORKDIR /app
-ARG API
-ENV REACT_APP_ENDPOINT $API
 
 # Copy package.json and package-lock.json to install dependencies
 COPY package*.json ./
