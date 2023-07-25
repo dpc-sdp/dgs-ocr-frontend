@@ -7,6 +7,6 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - 3000:80
     environment:
       - REACT_APP_ENDPOINT=https://devocrback.victoriousdune-c6195d85.australiaeast.azurecontainerapps.io
