@@ -1,13 +1,12 @@
 version: "3.9"
 
 services:
-
-  sample:
-    container_name: docai
+  docai:
+    image: docai
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 3000:80
+      - 3000:3000
     environment:
-      - REACT_APP_ENDPOINT=http://localhost:5001
+      - REACT_APP_ENDPOINT=https://devocrback.victoriousdune-c6195d85.australiaeast.azurecontainerapps.io
