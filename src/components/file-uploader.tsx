@@ -32,7 +32,7 @@ const Uploader: React.FC = () => {
     name: "doc",
     data: { cover_type: coverType },
     multiple: false,
-    action: `${process.env.REACT_APP_ENDPOINT?.trim()}/api/v1/ocr/analyze-doc?sample_doc=true`,
+    action: `${window._env_.REACT_APP_ENDPOINT?.trim()}/api/v1/ocr/analyze-doc?sample_doc=true`,
     accept: ".pdf,.png",
     showUploadList: false,
     headers: { Authorization: `Bearer ${token}` },

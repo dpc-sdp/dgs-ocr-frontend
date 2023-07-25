@@ -1,20 +1,38 @@
-# Use Node.js as the base image
+# Stage 1: Build the application
 FROM node:18.16.0-alpine AS builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
 # Copy package.json and package-lock.json to install dependencies
 COPY package*.json ./
-
-# Install app dependencies
-RUN npm install
+RUN npm ci --silent
 
 # Copy the rest of the application files
 COPY . .
 
-# Expose the development port (if your app runs on a different port, adjust this)
-EXPOSE 3000
+# Build the application
+RUN npm run build
 
-# Start the development server
-CMD ["npm", "start"]
+# Stage 2: Serve the built application
+FROM nginx:1.21.0-alpine
+
+# Nginx config
+RUN rm -rf /etc/nginx/conf.d
+COPY conf /etc/nginx
+
+# Static build
+COPY --from=builder /app/build /usr/share/nginx/html/
+
+# Default port exposure
+EXPOSE 80
+
+# Copy .env file and shell script to container
+WORKDIR /usr/share/nginx/html
+COPY ./env.sh .
+COPY .env .
+
+# Make our shell script executable
+RUN chmod +x env.sh
+
+# Start Nginx server
+CMD ["/bin/sh", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
