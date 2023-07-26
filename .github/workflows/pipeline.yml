@@ -1,4 +1,4 @@
-on: push
+# on: push
 
 env:
   APP_RESOURCE_GROUP_NAME: "development-ocr"
