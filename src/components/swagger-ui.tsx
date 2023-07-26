@@ -4,7 +4,7 @@ import { useLoginContent } from "../contexts/login-context";
 
 const SwaggerUIComponent = () => {
   // The URL to your Swagger/OpenAPI specification JSON file
-  const swaggerJsonUrl = `${window._env_.REACT_APP_ENDPOINT}/swagger.json`;
+  const swaggerJsonUrl = "/api/swagger.json";
   const { token } = useLoginContent();
 
   const headers = {
