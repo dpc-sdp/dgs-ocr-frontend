@@ -16,23 +16,14 @@ RUN npm run build
 # Stage 2: Serve the built application
 FROM nginx:1.21.0-alpine
 
-# Nginx config
-RUN rm -rf /etc/nginx/conf.d
-COPY conf /etc/nginx
-
 # Static build
 COPY --from=builder /app/build /usr/share/nginx/html/
 
 # Default port exposure
 EXPOSE 80
 
-# Copy .env file and shell script to container
-WORKDIR /usr/share/nginx/html
-COPY ./env.sh .
-COPY .env .
+COPY nginx-default.conf.template /etc/nginx/conf.d/default.conf.template
 
-# Make our shell script executable
-RUN chmod +x env.sh
-
-# Start Nginx server
-CMD ["/bin/sh", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
+COPY env.sh /
+ENTRYPOINT ["/env.sh"]
+CMD ["nginx", "-g", "daemon off;"]
