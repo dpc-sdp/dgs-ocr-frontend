@@ -1,4 +1,4 @@
-name: production
+name: release
 
 on:
   workflow_dispatch:
@@ -38,17 +38,16 @@ jobs:
         if: ${{ inputs.logLevel == 'uat'}}
         run: |
           echo 'uat'
-          git status
           build=$(git rev-parse --abbrev-ref HEAD) && build=${build//\//-}
           echo $build
           # az extension add -n containerapp
           # az login --service-principal --username ${{secrets.ARM_CLIENT_ID}} --password ${{secrets.ARM_CLIENT_SECRET}} --tenant ${{secrets.ARM_TENANT_ID}}
           # az account set --subscription ${{secrets.ARM_SUBSCRIPTION_ID}}
+          # az containerapp update -n $APP_RESOURCE_NAME -g $APP_RESOURCE_GROUP_NAME -i $IMAGE_REGISTRY_HOSTNAME/$IMAGE_NAME:$GITHUB_SHA
       - name: production
         if: ${{ inputs.logLevel == 'production'}}
         run: |
           echo 'prod'
-          git status
           build=$(git rev-parse --abbrev-ref HEAD) && build=${build//\//-}
           echo $build
           # az extension add -n containerapp
