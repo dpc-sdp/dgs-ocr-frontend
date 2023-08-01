@@ -5,6 +5,7 @@ import {
   useReducer,
   useEffect,
 } from "react";
+import isJwtTokenExpired, { decode } from "jwt-check-expiry";
 
 export interface LoginContext {
   isLoggedIn: boolean;
@@ -84,6 +85,12 @@ export const LoginContentProvider = ({ children }: Props) => {
 };
 
 export const useLoginContent = () => {
+  const authDispatch = useLoginContentDispatch();
+  const { token } = useContext(ContentContext);
+
+  if (token && isJwtTokenExpired(token)) {
+    authDispatch({ action: LOGIN_ACTION.LOGOUT });
+  }
   return useContext(ContentContext);
 };
 

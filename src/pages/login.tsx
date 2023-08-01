@@ -5,6 +5,7 @@ import {
   useLoginContentDispatch,
 } from "../contexts/login-context";
 import { login } from "../services/login-service";
+import { showErrorNotification } from "../components/notifications";
 
 const LoginPage = () => {
   const dispatch = useLoginContentDispatch();
@@ -18,8 +19,8 @@ const LoginPage = () => {
         action: LOGIN_ACTION.LOGIN,
         data: access_token,
       });
-    } catch (e) {
-      console.log("error");
+    } catch (e: any) {
+      showErrorNotification(e.response.statusText, e.response.data.msg);
     }
   };
 
