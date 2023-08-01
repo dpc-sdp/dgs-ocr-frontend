@@ -9,9 +9,18 @@ export interface LoginParams {
     password: string;
 }
 
+
 export const login = async (params: LoginParams): Promise<AxiosResponse<LoginResponce>> => {
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'username': params.username,
+        'password': params.password,
+      };
+
+
     return axios.post<LoginParams, AxiosResponse<LoginResponce>>(
         '/api/v1/user/login',
-        params
+        {}, { headers }
     );
 }
