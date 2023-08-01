@@ -33,6 +33,7 @@ jobs:
           dir=$(pwd)
           git config --global --add safe.directory $dir
           build=$(git rev-parse --abbrev-ref HEAD) && build=${build//\//-}
+          echo $build
           az extension add -n containerapp
           az login --service-principal --username ${{secrets.UAT_ARM_CLIENT_ID}} --password ${{secrets.UAT_ARM_CLIENT_SECRET}} --tenant ${{secrets.UAT_ARM_TENANT_ID}}
           az account set --subscription ${{secrets.UAT_ARM_SUBSCRIPTION_ID}}
