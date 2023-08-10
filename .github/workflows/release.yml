@@ -10,6 +10,9 @@ on:
         options:
         - uat
         - production
+      version:
+        required: false
+        default: ''
 
 env:
   UAT_APP_RESOURCE_GROUP_NAME: "uat-ocr"
@@ -17,7 +20,7 @@ env:
   PROD_APP_RESOURCE_GROUP_NAME: "production-ocr"
   PROD_APP_RESOURCE_NAME: "prodocrfront"
   IMAGE_REGISTRY_HOSTNAME: "devocrregistry.azurecr.io"
-  IMAGE_NAME: "docai"
+  IMAGE_NAME: "frontend"
 
 jobs:
   deploy:
@@ -32,7 +35,9 @@ jobs:
         run: |
           dir=$(pwd)
           git config --global --add safe.directory $dir
-          BUILD=$(git rev-parse --abbrev-ref HEAD) && BUILD=${BUILD//\//-}
+          echo "${{inputs.version}}"
+          if [[ ${{inputs.version}} == '' ]]; then BUILD=$(git rev-parse --abbrev-ref HEAD) && BUILD=${BUILD//\//-}; else BUILD=${{inputs.version}}; fi
+          echo $BUILD
           az extension add -n containerapp
           az login --service-principal --username ${{secrets.UAT_ARM_CLIENT_ID}} --password ${{secrets.UAT_ARM_CLIENT_SECRET}} --tenant ${{secrets.UAT_ARM_TENANT_ID}}
           az account set --subscription ${{secrets.UAT_ARM_SUBSCRIPTION_ID}}
